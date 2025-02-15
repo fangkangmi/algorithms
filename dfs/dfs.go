@@ -11,37 +11,33 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-// levelOrderTraverse 层序遍历函数
 func levelOrderTraverse(root *TreeNode) [][]int {
-
+	// base case
 	if root == nil {
 		return [][]int{}
 	}
 
 	var result [][]int
-	queue := []*TreeNode{root}
-	depth := 0
-	for len(queue) > 0 {
-		currentLevel := len(queue)
-		var levelNodes []int
-		for i := 0; i < currentLevel; i++ {
-			node := queue[0]
-			queue = queue[1:]
-			levelNodes = append(levelNodes, node.Val)
-
-			if node.Left != nil {
-				queue = append(queue, node.Left)
-			}
-
-			if node.Right != nil {
-				queue = append(queue, node.Right)
-			}
-		}
-
-		result = append(result, levelNodes)
-		depth++
-	}
+	dfs(root, 0, &result)
 	return result
+}
+
+func dfs(node *TreeNode, level int, result *[][]int) {
+	if node == nil {
+		return
+	}
+
+	// Ensure the result slice has enough levels
+	if len(*result) == level {
+		*result = append(*result, []int{})
+	}
+
+	// Add the current node's value to the corresponding level
+	(*result)[level] = append((*result)[level], node.Val)
+
+	// Recursively traverse the left and right subtrees
+	dfs(node.Left, level+1, result)
+	dfs(node.Right, level+1, result)
 }
 
 // main 函数用于测试
