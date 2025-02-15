@@ -50,7 +50,7 @@ func (pq *SimpleMinPQ) pop() int {
 	// 把堆底元素放到堆顶
 	pq.heap[0] = pq.heap[pq.size-1]
 	pq.size--
-	// 然后下沉到正确位置
+	// move the element at the root (index 0) down to its correct position
 	pq.sink(0)
 	return res
 }
@@ -84,20 +84,5 @@ func (pq *SimpleMinPQ) sink(node int) {
 }
 
 func main() {
-	pq := SimpleMinPQ{
-		heap: make([]int, 5),
-		size: 0,
-	}
-
-	pq.push(3)
-	pq.push(2)
-	pq.push(1)
-	pq.push(5)
-	pq.push(4)
-
-	fmt.Println(pq.pop()) // 1
-	fmt.Println(pq.pop()) // 2
-	fmt.Println(pq.pop()) // 3
-	fmt.Println(pq.pop()) // 4
-	fmt.Println(pq.pop()) // 5
+	fmt.Println("testing")
 }
