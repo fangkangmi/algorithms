@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type SimpleMinPQ struct {
 	// 底层使用数组实现二叉堆
@@ -37,27 +39,24 @@ func (pq *SimpleMinPQ) peek() int {
 
 // 增，向堆中插入一个元素，时间复杂度 O(logN)
 func (pq *SimpleMinPQ) push(x int) {
-	// 把新元素追加到最后
-	pq.heap[pq.size] = x
-	// 然后上浮到正确位置
-	pq.swim(pq.size)
+	pq.heap = append(pq.heap, x) // Append the new element
+	pq.swim(pq.size)             // Swim to restore heap property
 	pq.size++
 }
 
 // 删，删除堆顶元素，时间复杂度 O(logN)
 func (pq *SimpleMinPQ) pop() int {
 	res := pq.heap[0]
-	// 把堆底元素放到堆顶
-	pq.heap[0] = pq.heap[pq.size-1]
+	pq.swap(0, pq.size-1)
+	pq.heap = pq.heap[:pq.size-1]
 	pq.size--
-	// move the element at the root (index 0) down to its correct position
 	pq.sink(0)
 	return res
 }
 
 // 上浮操作，时间复杂度是树高 O(logN)
 func (pq *SimpleMinPQ) swim(node int) {
-	for node > 0 && pq.heap[pq.parent(node)] > pq.heap[node] {
+	for node > 0 && pq.heap[node] < pq.heap[pq.parent(node)] {
 		pq.swap(pq.parent(node), node)
 		node = pq.parent(node)
 	}
@@ -65,24 +64,85 @@ func (pq *SimpleMinPQ) swim(node int) {
 
 // 下沉操作，时间复杂度是树高 O(logN)
 func (pq *SimpleMinPQ) sink(node int) {
-	for pq.left(node) < pq.size || pq.right(node) < pq.size {
-		// 比较自己和左右子节点，看看谁最小
-		min := node
-		if pq.left(node) < pq.size && pq.heap[pq.left(node)] < pq.heap[min] {
-			min = pq.left(node)
+	// if the node has left and right nodes
+	for pq.left(node) < pq.size && pq.right(node) < pq.size {
+
+		// if the node is greater than left or right, we swap it
+		if pq.heap[node] > pq.heap[pq.left(node)] || pq.heap[node] > pq.heap[pq.right(node)] {
+
+			// if left less than right, we swap the left to node
+			if pq.heap[pq.left(node)] < pq.heap[pq.right(node)] {
+				// we first swap the value
+				pq.swap(pq.left(node), node)
+
+				// Then we swap the index
+				node = pq.left(node)
+			} else {
+				pq.swap(pq.right(node), node)
+				node = pq.right(node)
+			}
 		}
-		if pq.right(node) < pq.size && pq.heap[pq.right(node)] < pq.heap[min] {
-			min = pq.right(node)
+	}
+
+	if pq.left(node) < pq.size {
+		if pq.heap[pq.left(node)] < pq.heap[node] {
+			pq.swap(pq.left(node), node)
 		}
-		if min == node {
-			break
-		}
-		// 如果左右子节点中有比自己小的，就交换
-		pq.swap(node, min)
-		node = min
 	}
 }
 
+// 下沉操作，时间复杂度是树高 O(logN)
+func (pq *SimpleMinPQ) sink_recursion(node int) {
+
+	// base case
+	if pq.left(node) >= pq.size {
+		return
+	}
+
+	min := node
+	left := pq.left(node)
+	right := pq.right(node)
+
+	if left < pq.size && pq.heap[left] < pq.heap[min] {
+		min = left
+	}
+
+	if right < pq.size && pq.heap[right] < pq.heap[min] {
+		min = right
+	}
+
+	if min == node {
+		return
+	}
+
+	pq.swap(node, min)
+	pq.sink(min)
+
+}
+
 func main() {
-	fmt.Println("testing")
+	pq := SimpleMinPQ{
+		heap: []int{},
+		size: 0,
+	}
+
+	pq.push(3)
+	pq.push(2)
+	pq.push(1)
+	pq.push(5)
+	pq.push(4)
+	fmt.Println("original heap")
+	fmt.Println(pq.heap)
+
+	fmt.Println("start pop")
+	pq.pop()
+	fmt.Println(pq.heap)
+	pq.pop()
+	fmt.Println(pq.heap)
+	pq.pop()
+	fmt.Println(pq.heap)
+	pq.pop()
+	fmt.Println(pq.heap)
+	pq.pop()
+	fmt.Println(pq.heap)
 }
