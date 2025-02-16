@@ -13,35 +13,30 @@ type TreeNode struct {
 
 // levelOrderTraverse 层序遍历函数
 func levelOrderTraverse(root *TreeNode) [][]int {
-
 	if root == nil {
 		return [][]int{}
 	}
 
-	var result [][]int
 	queue := []*TreeNode{root}
-	depth := 0
-	for len(queue) > 0 {
-		currentLevel := len(queue)
-		var levelNodes []int
-		for i := 0; i < currentLevel; i++ {
+	var res [][]int
+	for len(queue) != 0 {
+		sz := len(queue)
+		currentLevel := []int{}
+		for i := 0; i < sz; i++ {
+
 			node := queue[0]
 			queue = queue[1:]
-			levelNodes = append(levelNodes, node.Val)
-
+			currentLevel = append(currentLevel, node.Val)
 			if node.Left != nil {
 				queue = append(queue, node.Left)
 			}
-
 			if node.Right != nil {
 				queue = append(queue, node.Right)
 			}
 		}
-
-		result = append(result, levelNodes)
-		depth++
+		res = append(res, currentLevel)
 	}
-	return result
+	return res
 }
 
 // main 函数用于测试

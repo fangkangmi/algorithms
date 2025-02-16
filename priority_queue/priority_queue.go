@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"math/rand/v2"
 )
 
 type SimpleMinPQ struct {
@@ -50,7 +52,13 @@ func (pq *SimpleMinPQ) pop() int {
 	pq.swap(0, pq.size-1)
 	pq.heap = pq.heap[:pq.size-1]
 	pq.size--
-	pq.sink(0)
+	if pq.size > 0 {
+		if rand.IntN(2) == 0 {
+			pq.sink(0)
+		} else {
+			pq.sink_recursion(0)
+		}
+	}
 	return res
 }
 
