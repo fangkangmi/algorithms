@@ -72,30 +72,55 @@ func (pq *SimpleMinPQ) swim(node int) {
 
 // 下沉操作，时间复杂度是树高 O(logN)
 func (pq *SimpleMinPQ) sink(node int) {
-	// if the node has left and right nodes
-	for pq.left(node) < pq.size && pq.right(node) < pq.size {
+	// // if the node has left and right nodes
+	// for pq.left(node) < pq.size && pq.right(node) < pq.size {
 
-		// if the node is greater than left or right, we swap it
-		if pq.heap[node] > pq.heap[pq.left(node)] || pq.heap[node] > pq.heap[pq.right(node)] {
+	// 	// if the node is greater than left or right, we swap it
+	// 	if pq.heap[node] > pq.heap[pq.left(node)] || pq.heap[node] > pq.heap[pq.right(node)] {
 
-			// if left less than right, we swap the left to node
-			if pq.heap[pq.left(node)] < pq.heap[pq.right(node)] {
-				// we first swap the value
-				pq.swap(pq.left(node), node)
+	// 		// if left less than right, we swap the left to node
+	// 		if pq.heap[pq.left(node)] < pq.heap[pq.right(node)] {
+	// 			// we first swap the value
+	// 			pq.swap(pq.left(node), node)
 
-				// Then we swap the index
-				node = pq.left(node)
-			} else {
-				pq.swap(pq.right(node), node)
-				node = pq.right(node)
-			}
+	// 			// Then we swap the index
+	// 			node = pq.left(node)
+	// 		} else {
+	// 			pq.swap(pq.right(node), node)
+	// 			node = pq.right(node)
+	// 		}
+	// 	}
+	// }
+
+	// if pq.left(node) < pq.size {
+	// 	if pq.heap[pq.left(node)] < pq.heap[node] {
+	// 		pq.swap(pq.left(node), node)
+	// 	}
+	// }
+
+	// Standard sink
+	// Above wrttien by me not optimized
+	for {
+		left := pq.left(node)
+		right := pq.right(node)
+		smallest := node
+
+		// If left exist and the left value is less than the node we are trying to sink
+		if left < pq.size && pq.heap[left] < pq.heap[smallest] {
+			smallest = left
 		}
-	}
-
-	if pq.left(node) < pq.size {
-		if pq.heap[pq.left(node)] < pq.heap[node] {
-			pq.swap(pq.left(node), node)
+		// If right exist and the right value is less than the node we are trying to sink
+		if right < pq.size && pq.heap[right] < pq.heap[smallest] {
+			smallest = right
 		}
+
+		//If both case not happened. We are the smallest already!
+		if smallest == node {
+			break
+		}
+		// Swap the value and the index
+		pq.swap(node, smallest)
+		node = smallest
 	}
 }
 
