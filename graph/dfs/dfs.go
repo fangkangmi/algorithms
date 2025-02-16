@@ -22,14 +22,30 @@ func (g *Graph) AddEdge(u, v int) {
 
 // DFS function to traverse all nodes using Depth-First Search
 func (g *Graph) DFS(node int, visited map[int]bool) {
-	visited[node] = true
-	fmt.Printf("Visited node: %d\n", node)
+	// base case
+	if visited[node] {
+		return
+	}
 
-	for _, neighbor := range g.adjList[node] {
-		if !visited[neighbor] {
-			g.DFS(neighbor, visited)
+	for !visited[node] {
+		fmt.Println(node)
+		visited[node] = true
+		for _, neighbor := range g.adjList[node] {
+			if !visited[neighbor] {
+				g.DFS(neighbor, visited)
+			}
 		}
 	}
+
+	// the answer
+	// visited[node] = true
+	// fmt.Printf("Visited node: %d\n", node)
+
+	// for _, neighbor := range g.adjList[node] {
+	// 	if !visited[neighbor] {
+	// 		g.DFS(neighbor, visited)
+	// 	}
+	// }
 }
 
 // TODO: Implement your own traversal logic here if needed
