@@ -132,3 +132,37 @@ func main() {
 	// Printing keys again
 	fmt.Println("Keys in insertion order after adding 'four':", lhm.Keys())
 }
+
+// queue := []int{0}
+// var res [][]int
+// path:= []int{0}
+
+// last_node := len(graph)-1
+// for len(queue)>0{
+
+// 	sz := len(queue)
+// 	// Here is to iterate the size of next level
+// 	// If we create all the path from 0 to any points. The space COmplx will be O(V+E), too big\
+// 	// So we only save: When there's no neighbor.
+// 	// But we still need to save the state, before reaching 'no neighbor'
+// 	// Luckily, the 'no neighbor' point is the one and the only solution
+// 	// So wee need to save all the path to the end
+
+// 	// What the pain pioint here is to: don't save every path, but extend existing paths
+// 	// And make sure it is extended the correct path.
+// 	// So let us for every loop, we need to have a path for "How we have been here"
+
+// 	for i := 0 ; i < sz; i++{
+// 		node := queue[0]
+// 		queue = queue[:1]
+// 		// Iterate that specific node's neighbor,
+// 		// we should have a path here, and extend them in the for loop
+// 		// Also in for loop we need to create some paths
+// 		for _, neighbor := range graph[node]{
+// 			queue = append(queue,neighbor)
+// 			all_path = append(all_path, )
+
+// 		}
+// 	}
+// 	path = append(path,)
+// }

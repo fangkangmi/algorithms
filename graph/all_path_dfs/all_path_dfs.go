@@ -22,29 +22,42 @@ func (g *Graph) AddEdge(u, v int) {
 
 // DFS function to traverse all paths from startNode to endNode
 func (g *Graph) DFSAllPaths(startNode, endNode int, path []int, visited map[int]bool, allPaths *[][]int) {
-	// Mark the current node as visited and add it to the current path
 	visited[startNode] = true
 	path = append(path, startNode)
+	node := startNode
 
-	// If we've reached the endNode, add the current path to allPaths
+	// If we found it.
 	if startNode == endNode {
-		// Make a copy of the current path to store in allPaths
 		tempPath := make([]int, len(path))
 		copy(tempPath, path)
 		*allPaths = append(*allPaths, tempPath)
-	} else {
-		// Otherwise, explore all neighbors
-		for _, neighbor := range g.adjList[startNode] {
-			if !visited[neighbor] {
-				g.DFSAllPaths(neighbor, endNode, path, visited, allPaths)
-			}
-		}
 	}
 
-	// Backtrack: Remove the current node from the path and mark it as unvisited
+	// If there still child to go
+	if len(g.adjList[node]) > 0 {
+		for _, child := range g.adjList[node] {
+			if visited[child] {
+				continue
+			}
+			// if there are adj Node exist and not been visited, go for it
+			g.DFSAllPaths(child, endNode, path, visited, allPaths)
+		}
+	}
+	// Unfortunatly in order to save memory, we only have one path.
+	// We need to maintain it. Whatever we find it or not, we need back trace it.
 	path = path[:len(path)-1]
-	visited[startNode] = false
+	// devisit. Because other path will pass here.
+	visited[node] = false
+
 }
+
+//To take away
+//1 if len(g.adjList[node]) > 0 we DON'T NEED THIS, it will do nothing in for loop anyway
+//2. don't name it child, we need to name it neighbor
+//3.  if !visited[neighbor] {
+// 	       g.DFSAllPaths(neighbor, endNode, path, visited, allPaths)
+// 	  }
+// is more efficient
 
 // Function to find all paths from startNode to endNode
 func (g *Graph) FindAllPaths(startNode, endNode int) [][]int {
