@@ -1,0 +1,73 @@
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+//------------------BFS---------------------------
+
+func maxDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+
+	queue := []*TreeNode{root} // Initialize the queue with the root node
+	depth := 0
+
+	for len(queue) > 0 {
+		// Increment depth for the current level
+		depth++
+
+		// Process all nodes at the current level
+		levelSize := len(queue)
+		for i := 0; i < levelSize; i++ {
+			node := queue[0]  // Get the front node
+			queue = queue[1:] // Dequeue
+
+			// Enqueue left and right children if they exist
+			if node.Left != nil {
+				queue = append(queue, node.Left)
+			}
+			if node.Right != nil {
+				queue = append(queue, node.Right)
+			}
+		}
+	}
+
+	return depth
+}
+
+//-----------------DFS----------------------
+
+func maxDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	depth := 0
+	res := 0
+	traverse(root, &depth, &res)
+	return res
+}
+
+func traverse(root *TreeNode, depth *int, res *int) {
+	if root == nil {
+		*res = max(*depth, *res)
+		return
+	}
+
+	*depth++
+	traverse(root.Left, depth, res)
+	traverse(root.Right, depth, res)
+	*depth--
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
