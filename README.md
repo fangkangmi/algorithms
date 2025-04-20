@@ -1,49 +1,29 @@
-# Algorithms Learning Notes
+# Algorithms Project Documentation
+
+## Index
+- [Overview](#overview)
+- [Sliding Window Algorithm](#sliding-window-algorithm)
+- [Other Algorithms](#other-algorithms)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Overview
+This project contains implementations of various algorithms, focusing on the sliding window technique and other algorithmic strategies. The goal is to provide clear and efficient solutions to common problems encountered in programming and computer science.
 
 ## Sliding Window Algorithm
+The sliding window algorithm is a powerful technique used to solve problems involving arrays or strings. It is particularly useful for problems that require finding subarrays or substrings that satisfy certain conditions. 
 
-### Overview
-The sliding window algorithm is a powerful technique used to solve problems involving arrays or strings. It is particularly useful for problems that require finding subarrays or substrings that satisfy certain conditions.
+For detailed implementation, refer to the [sliding_window.go](src/sliding_window.py) file.
 
-### Key Concepts
-1. **Window Representation**:
-   - Use a data structure (e.g., `map`, `int`) to represent the current state of the window.
-   - Adjust the data structure based on the problem requirements (e.g., count of elements, sum of elements).
+## Other Algorithms
+This section includes various algorithmic techniques and their respective functions. For more information, check the [other_algorithms.go](src/other_algorithms.go) file.
 
-2. **Two Pointers**:
-   - Use two pointers (`left` and `right`) to represent the boundaries of the window.
-   - Move the `right` pointer to expand the window.
-   - Move the `left` pointer to shrink the window when necessary.
+## Usage
+To use the algorithms in this project, clone the repository and navigate to the `src` directory. You can run the Go files directly or import them into your own Go projects.
 
-3. **Window Updates**:
-   - Update the window's data structure as elements are added or removed.
-   - Perform any necessary calculations or checks within the window.
+## Contributing
+Contributions are not welcome! If you have suggestions for improvements or additional algorithms, please feel free to submit a pull request, but I won't approve it!
 
-4. **Debugging**:
-   - Use debug statements (e.g., `fmt.Println`) to print the state of the window during development.
-   - Remove debug statements in the final implementation to avoid performance issues.
-
-### Pseudocode Framework
-```go
-func slidingWindow(s string) {
-    var window = ... // Initialize data structure
-    left, right := 0, 0
-
-    for right < len(s) {
-        c := rune(s[right]) // Character to add
-        window[c]++
-        right++ // Expand window
-
-        // Perform updates within the window
-        ...
-
-        // Shrink window if necessary
-        for left < right && window needs shrink {
-            d := rune(s[left]) // Character to remove
-            window[d]--
-            left++ // Shrink window
-            // Perform updates after shrinking
-            ...
-        }
-    }
-}
+## License
+This project is licensed under the MIT License.
