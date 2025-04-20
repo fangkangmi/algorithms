@@ -1,0 +1,70 @@
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+
+// Idea:
+// Brut force: ITERATE all, save into a hash map then remove it, pay attenton to head.Next
+
+// f and s,
+// f is n_th quick than s
+// when f reached the end, s.next = s.next.next
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	dummy_list := head
+	if head == nil {
+		return nil
+	}
+
+	s, f := head, head
+	for i := 0; i < n; i++ {
+		f = f.Next
+	}
+
+	if f == nil {
+		return dummy_list.Next
+	}
+
+	for {
+		if f.Next == nil {
+			break
+		}
+		s = s.Next
+		f = f.Next
+	}
+	s.Next = s.Next.Next
+	return dummy_list
+}
+
+// AI generated:
+
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	// Create a dummy node that points to the head of the list
+	dummy := &ListNode{Next: head}
+
+	// Two pointers initialized to start at the dummy node
+	slow, fast := dummy, dummy
+
+	// Move the fast pointer n steps ahead
+	for i := 0; i < n; i++ {
+		fast = fast.Next
+	}
+
+	// Move both pointers until fast reaches the end of the list
+	for fast.Next != nil {
+		slow = slow.Next
+		fast = fast.Next
+	}
+
+	// Remove the nth node by skipping over it
+	slow.Next = slow.Next.Next
+
+	// Return the new head (dummy.Next)
+	return dummy.Next
+}
+
+// TAke away:
+// 1. Use true dummy node: Set a dummy_node.next = head. Avoid a lot of issues
+//

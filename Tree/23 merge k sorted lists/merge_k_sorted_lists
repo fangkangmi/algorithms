@@ -1,0 +1,91 @@
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+
+//----------------pq----------------
+import (
+	"container/heap"
+	"fmt"
+)
+
+type MinHeap []*ListNode
+
+func (h MinHeap) Len() int           { return len(h) }
+func (h MinHeap) Less(i, j int) bool { return h[i].Val < h[j].Val }
+func (h MinHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+func (h *MinHeap) Push(x interface{}) {
+	*h = append(*h, x.(*ListNode))
+}
+
+func (h *MinHeap) Pop() interface{} {
+	n := len(*h)
+	x := (*h)[n-1]
+	*h = (*h)[:n-1]
+	return x
+}
+func mergeKLists(lists []*ListNode) *ListNode {
+	// Initialize the min-heap
+	h := &MinHeap{}
+	heap.Init(h)
+
+	// Push the head of each non-nil list into the heap
+	for _, list := range lists {
+		if list != nil {
+			heap.Push(h, list)
+		}
+	}
+
+	// Create a dummy node to simplify building the merged list
+	dummy := &ListNode{}
+	current := dummy
+
+	// Process the heap until it's empty
+	for h.Len() > 0 {
+		// Extract the smallest node from the heap
+		smallest := heap.Pop(h).(*ListNode)
+
+		// Append the smallest node to the merged list
+		current.Next = smallest
+		current = current.Next
+
+		// If the smallest node has a next node, push it into the heap
+		if smallest.Next != nil {
+			heap.Push(h, smallest.Next)
+		}
+	}
+
+	// Return the head of the merged list (skip the dummy node)
+	return dummy.Next
+}
+
+//-----------------A big list--------------------------
+
+func mergeKLists(lists []*ListNode) *ListNode {
+	var values []int
+
+	// Step 1: Flatten all values into a single slice
+	for _, list := range lists {
+		for list != nil {
+			values = append(values, list.Val)
+			list = list.Next
+		}
+	}
+
+	// Step 2: Sort the slice
+	sort.Ints(values)
+
+	// Step 3: Convert the sorted slice back to a linked list
+	dummy := &ListNode{}
+	current := dummy
+	for _, val := range values {
+		current.Next = &ListNode{Val: val}
+		current = current.Next
+	}
+
+	return dummy.Next
+}
