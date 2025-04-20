@@ -7,6 +7,7 @@
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
+- [Python Cheat Sheet](#python-cheat-sheet)
 
 ## Overview
 This project contains implementations of various algorithms, focusing on the sliding window technique and other algorithmic strategies. The goal is to provide clear and efficient solutions to common problems encountered in programming and computer science.
@@ -27,3 +28,54 @@ Contributions are not welcome! If you have suggestions for improvements or addit
 
 ## License
 This project is licensed under the MIT License.
+
+### Index of Python Cheat Sheet
+- [List Operations in Python](#list-operations-in-python)
+    - [`pop()`](#pop)
+    - [`remove()`](#remove)
+    - [`del`](#del)
+Here are some essential Python syntax and functions to remember:
+
+### List Operations in Python
+
+#### `pop()`
+The `pop()` function removes the last element or the element at the specified index from a list.
+
+- **Requires parameter?** Optional (index).
+- **Returns value?** Yes, the value of the deleted element.
+- **Error handling:** Raises `IndexError` if the specified index is not found.
+- **Time complexity:** O(1) for the last element, O(n) for a specified index.
+
+**Syntax:**
+```python
+list_name.pop()
+list_name.pop(index)
+```
+
+#### `remove()`
+The `remove()` function removes the first occurrence of the specified element from a list.
+
+- **Requires parameter?** Yes, the value of the element.
+- **Returns value?** No.
+- **Error handling:** Raises `ValueError` if the specified value is not found.
+- **Time complexity:** O(n).
+
+**Syntax:**
+```python
+list_name.remove(value)
+```
+
+#### `del`
+The `del` keyword removes an element at a specified index, slices a list, or deletes the entire list.
+
+- **Requires parameter?** Yes, the index or slice.
+- **Returns value?** No.
+- **Error handling:** Raises `IndexError` if the specified index is not found.
+- **Time complexity:** O(n).
+
+**Syntax:**
+```python
+del list_name
+del list_name[index]
+del list_name[start:end]
+```
